@@ -1,6 +1,22 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+TB_BIN="/usr/local/bin/tigerbeetle"
+
+if ! command -v tigerbeetle >/dev/null 2>&1; then
+  echo "Downloading TigerBeetle binary..."
+  curl -Lo /tmp/tigerbeetle.zip https://linux.tigerbeetle.com
+  unzip /tmp/tigerbeetle.zip -d /tmp/tigerbeetle
+  sudo mv /tmp/tigerbeetle/tigerbeetle ${TB_BIN}
+  sudo chmod +x ${TB_BIN}
+  echo "TigerBeetle installed at ${TB_BIN}"
+else
+  echo "TigerBeetle already installed."
+fi
+
+tigerbeetle version
+
+
 ENVIRONMENT="${1:-dev}" # usage: ./install_tb.sh dev|prod
 
 if [[ "$ENVIRONMENT" != "dev" && "$ENVIRONMENT" != "prod" ]]; then
