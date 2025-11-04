@@ -42,10 +42,11 @@ else
   TIGERBEETLE_REPLICA_COUNT="3"
   TIGERBEETLE_REPLICA_INDEX="0"
   TIGERBEETLE_CLUSTER_ID="1"
+fiCHE_GRID_SIZE="2GiB"
 fi
 
 STATE_DIR="${STATE_BASE_DIR}/${ENVIRONMENT}"
-DATA_FILE="${STATE_DIR}/${CLUSTER_ID}_${REPLICA_INDEX}.tigerbeetle"
+TIGERBEETLE_DATA_FILE="${STATE_DIR}/${CLUSTER_ID}_${REPLICA_INDEX}.tigerbeetle"
 
 # Create dirs
 sudo mkdir -p "${STATE_DIR}"
@@ -55,8 +56,8 @@ sudo chmod 700 "${STATE_DIR}"
 sudo tee ${PRE_START_SCRIPT} > /dev/null <<EOF
 #!/bin/sh
 set -eu
-if ! test -e "${DATA_FILE}"; then
-  ${INSTALL_DIR}/tigerbeetle format --cluster="${CLUSTER_ID}" --replica="${REPLICA_INDEX}" --replica-count="${REPLICA_COUNT}" "${DATA_FILE}"
+if ! test -e "${TIGERBEETLE_DATA_FILE}"; then
+  ${INSTALL_DIR}/tigerbeetle format --cluster="${CLUSTER_ID}" --replica="${REPLICA_INDEX}" --replica-count="${REPLICA_COUNT}" "${TIGERBEETLE_DATA_FILE}"
 fi
 EOF
 sudo chmod +x ${PRE_START_SCRIPT}
@@ -72,9 +73,9 @@ AmbientCapabilities=CAP_IPC_LOCK
 Environment=TIGERBEETLE_CACHE_GRID_SIZE=${TIGERBEETLE_CACHE_GRID_SIZE}
 Environment=TIGERBEETLE_ADDRESSES=${TIGERBEETLE_ADDRESSES}
 Environment=TIGERBEETLE_REPLICA_COUNT=${TIGERBEETLE_REPLICA_COUNT}
-Environment=TIGERBEETLE_REPLICA_INDEX=${TIGERBEETLE_REPLICA_INDEX}
+Environment=TIGERBEETLE_REPLICA_INDEX=${REPLICA_INDEX}
 Environment=TIGERBEETLE_CLUSTER_ID=${TIGERBEETLE_CLUSTER_ID}
-Environment=TIGERBEETLE_DATA_FILE=${DATA_FILE}
+Environment=TIGERBEETLE_DATA_FILE=${TIGERBEETLE_DATA_FILE}
 StateDirectory=tigerbeetle/${ENVIRONMENT}
 StateDirectoryMode=700
 Type=exec
