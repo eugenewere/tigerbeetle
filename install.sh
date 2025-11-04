@@ -42,11 +42,10 @@ else
   TIGERBEETLE_REPLICA_COUNT="3"
   TIGERBEETLE_REPLICA_INDEX="0"
   TIGERBEETLE_CLUSTER_ID="1"
-fiCHE_GRID_SIZE="2GiB"
 fi
 
 STATE_DIR="${STATE_BASE_DIR}/${ENVIRONMENT}"
-TIGERBEETLE_DATA_FILE="${STATE_DIR}/${CLUSTER_ID}_${REPLICA_INDEX}.tigerbeetle"
+TIGERBEETLE_DATA_FILE="${STATE_DIR}/${TIGERBEETLE_CLUSTER_ID}_${TIGERBEETLE_REPLICA_INDEX}.tigerbeetle"
 
 # Create dirs
 sudo mkdir -p "${STATE_DIR}"
@@ -57,7 +56,7 @@ sudo tee ${PRE_START_SCRIPT} > /dev/null <<EOF
 #!/bin/sh
 set -eu
 if ! test -e "${TIGERBEETLE_DATA_FILE}"; then
-  ${INSTALL_DIR}/tigerbeetle format --cluster="${CLUSTER_ID}" --replica="${REPLICA_INDEX}" --replica-count="${REPLICA_COUNT}" "${TIGERBEETLE_DATA_FILE}"
+  ${INSTALL_DIR}/tigerbeetle format --cluster="${TIGERBEETLE_CLUSTER_ID}" --replica="${TIGERBEETLE_REPLICA_INDEX}" --replica-count="${TIGERBEETLE_REPLICA_COUNT}" "${TIGERBEETLE_DATA_FILE}"
 fi
 EOF
 sudo chmod +x ${PRE_START_SCRIPT}
