@@ -35,13 +35,13 @@ if [ "$ENVIRONMENT" = "dev" ]; then
   CLUSTER_ID="0"
   REPLICA_INDEX="0"
   REPLICA_COUNT="1"
-  CACHE_GRID_SIZE="512 MiB"
+  CACHE_GRID_SIZE="2GiB"
 else
   ADDRESSES="4001"
   CLUSTER_ID="1"
   REPLICA_INDEX="0"
   REPLICA_COUNT="3"  # adjust for production cluster
-  CACHE_GRID_SIZE="2 GiB"
+  CACHE_GRID_SIZE="2GiB"
 fi
 
 STATE_DIR="${STATE_BASE_DIR}/${ENVIRONMENT}"
@@ -79,7 +79,7 @@ StateDirectory=tigerbeetle/${ENVIRONMENT}
 StateDirectoryMode=700
 Type=exec
 ExecStartPre=${PRE_START_SCRIPT}
-ExecStart=${INSTALL_DIR}/tigerbeetle start --cache-grid=\${TIGERBEETLE_CACHE_GRID_SIZE} --addresses=\${TIGERBEETLE_ADDRESSES} \${TIGERBEETLE_DATA_FILE}
+ExecStart=/bin/bash -c '/usr/local/bin/tigerbeetle start --cache-grid=${TIGERBEETLE_CACHE_GRID_SIZE} --addresses=${TIGERBEETLE_ADDRESSES} ${TIGERBEETLE_DATA_FILE}'
 
 [Install]
 WantedBy=multi-user.target
