@@ -79,7 +79,7 @@ StateDirectory=tigerbeetle/${ENVIRONMENT}
 StateDirectoryMode=700
 Type=exec
 ExecStartPre=${PRE_START_SCRIPT}
-ExecStart=/bin/bash -c '/usr/local/bin/tigerbeetle start --io posix --cache-grid=${TIGERBEETLE_CACHE_GRID_SIZE} --addresses=${TIGERBEETLE_ADDRESSES} ${TIGERBEETLE_DATA_FILE}'
+ExecStart=/bin/bash -c '/usr/local/bin/tigerbeetle start --cache-grid=${TIGERBEETLE_CACHE_GRID_SIZE} --addresses=${TIGERBEETLE_ADDRESSES} ${TIGERBEETLE_DATA_FILE}'
 
 [Install]
 WantedBy=multi-user.target
